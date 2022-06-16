@@ -5,7 +5,7 @@ const app = Vue.createApp({
     };
   },
   watch: {
-    result(newValue) {
+    statusResult(newValue) {
       console.log(newValue);
       setTimeout(() => {
         this.result = 0;
