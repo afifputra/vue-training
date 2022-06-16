@@ -3,18 +3,18 @@ const app = Vue.createApp({
     return {
       tasks: [],
       enteredTask: "",
-      hideList: false,
+      isVisible: true,
     };
   },
   computed: {
-    showHideList() {
-      return {
-        visible: !this.hideList,
-        hidden: this.hideList,
-      };
-    },
+    // showHideList() {
+    //   return {
+    //     visible: !this.hideList,
+    //     hidden: this.hideList,
+    //   };
+    // },
     nameOfButton() {
-      return this.hideList ? "Show List" : "Hide List";
+      return this.isVisible ? "Hide List" : "Show List";
     },
   },
   methods: {
@@ -26,7 +26,7 @@ const app = Vue.createApp({
       this.tasks.splice(index, 1);
     },
     toggleList() {
-      this.hideList = !this.hideList;
+      this.isVisible = !this.isVisible;
     },
   },
 });
