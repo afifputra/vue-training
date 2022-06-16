@@ -16,16 +16,16 @@
     <section id="assignment">
       <!-- 1) Fetch the user input and use it as a CSS class -->
       <!-- The entered class should be added to the below paragraph -->
-      <input type="text" @input="getDataInput" @keyup.enter="setFinalUserInput" />
+      <input type="text" v-model="classInput" />
       <!-- (available classes: "user1", "user2") -->
-      <p :class="changeClassCss">{{ message }}</p>
-      <button @click="changeHiddenParagraph">Toggle Paragraph</button>
+      <p :class="finalClasses">Style me!</p>
+      <button @click="onHidden">Toggle Paragraph</button>
       <!-- 2) Use the "visible" and "hidden" classes to show/ hide the above paragraph -->
       <!-- Clicking the button should toggle between the two options -->
 
       <!-- 3) Add dynamic inline styling to the below paragraph and let the user enter a background-color -->
-      <input type="text" @input="changeStatusBgColor" />
-      <p :style="changeBackgroundColor">Style me inline!</p>
+      <input type="text" v-model="stylesInput" />
+      <p :style="finalStyles">Style me!</p>
     </section>
   </body>
 </html>

@@ -1,43 +1,29 @@
 const app = Vue.createApp({
   data() {
     return {
-      userInput: "",
-      hiddenParagraph: false,
-      finalUserInput: "",
-      inputBackgroundColor: "",
+      classInput: "",
+      stylesInput: "",
+      hideElement: false,
     };
   },
   computed: {
-    message() {
-      console.log("computed message");
-      const result = this.finalUserInput === "user1" || this.finalUserInput === "user2" ? "Applied!" : "Style me!";
-      return result;
+    finalClasses() {
+      return {
+        user1: this.classInput === "user1" ? "user1" : "",
+        user2: this.classInput === "user2" ? "user2" : "",
+        hidden: this.hideElement ? "hidden" : "",
+        visible: !this.hideElement ? "visible" : "",
+      };
     },
-    changeClassCss() {
-      console.log("changeClassCss");
-      if (this.hiddenParagraph) {
-        return `hidden ${this.finalUserInput}`;
-      } else {
-        return `visible ${this.finalUserInput}`;
-      }
-    },
-    changeBackgroundColor() {
-      console.log("changeBackgroundColor");
-      return { backgroundColor: this.inputBackgroundColor };
+    finalStyles() {
+      return {
+        backgroundColor: this.stylesInput,
+      };
     },
   },
   methods: {
-    getDataInput(event) {
-      this.userInput = event.target.value;
-    },
-    setFinalUserInput() {
-      this.finalUserInput = this.userInput;
-    },
-    changeHiddenParagraph() {
-      this.hiddenParagraph = !this.hiddenParagraph;
-    },
-    changeStatusBgColor(event) {
-      this.inputBackgroundColor = event.target.value;
+    onHidden() {
+      this.hideElement = !this.hideElement;
     },
   },
 });
