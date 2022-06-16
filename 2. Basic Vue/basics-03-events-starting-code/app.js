@@ -6,6 +6,13 @@ const app = Vue.createApp({
       confirmationName: "",
     };
   },
+  computed: {
+    fullName() {
+      console.log("running again...");
+      const result = this.name === "" ? "" : `${this.name} Putra`;
+      return result;
+    },
+  },
   methods: {
     increment(number) {
       this.counter += number;
@@ -19,6 +26,9 @@ const app = Vue.createApp({
     },
     confirmName() {
       this.confirmationName = this.name;
+    },
+    outputFullName() {
+      // return this.fullName;
     },
     submitForm() {
       alert("Submitted!");

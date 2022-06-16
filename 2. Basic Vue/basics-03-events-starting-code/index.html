@@ -16,12 +16,12 @@
     <section id="events">
       <h2>Events in Action</h2>
       <button v-on:click="increment(5)">Add 5</button>
-      <button v-on:click.right="decrement(5)">Remove 5</button>
+      <button v-on:click="decrement(5)">Remove 5</button>
       <p v-once>Starting Counter: {{ counter }}</p>
       <p>Result: {{ counter }}</p>
       <input type="text" name="name" id="name" v-model="name" />
       <button v-on:click="resetInput">Reset Input</button>
-      <p>Your Name : {{ name }}</p>
+      <p>Your Name : {{ fullName }}</p>
       <form v-on:submit.prevent="submitForm">
         <input type="text" name="username" id="username" />
         <button>Sign Up</button>
