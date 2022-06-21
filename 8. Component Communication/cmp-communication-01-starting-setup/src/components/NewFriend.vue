@@ -52,7 +52,7 @@ export default {
     addFriend(event) {
       event.preventDefault();
       this.$emit("add-friend", {
-        id: new Date.toIsoString(),
+        id: Date.now().toString(),
         name: this.inputName,
         phone: this.inputPhone,
         email: this.inputEmail,
