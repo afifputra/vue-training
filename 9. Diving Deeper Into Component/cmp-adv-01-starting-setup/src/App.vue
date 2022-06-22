@@ -13,7 +13,9 @@
     </course-goals> -->
     <button @click="setSelectedComponent('active-goal')">Active Goal</button>
     <button @click="setSelectedComponent('manage-goals')">Manage Goals</button>
-    <component :is="selectedComponent"></component>
+    <keep-alive>
+      <component :is="selectedComponent"></component>
+    </keep-alive>
   </div>
 </template>
 
