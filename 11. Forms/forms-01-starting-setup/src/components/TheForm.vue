@@ -1,12 +1,29 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <div class="form-control">
+    <div
+      class="form-control"
+      :class="{ invalid: usernameValidity === 'invalid' }"
+    >
       <label for="user-name">Your Name</label>
-      <input id="user-name" name="user-name" type="text" v-model="userName" />
+      <input
+        id="user-name"
+        name="user-name"
+        type="text"
+        v-model.trim="userName"
+        @blur="onValidateUsername"
+      />
+      <p v-if="usernameValidity === 'invalid'">Please, enter valid username.</p>
     </div>
-    <div class="form-control">
+    <div class="form-control" :class="{ invalid: ageValidity === 'invalid' }">
       <label for="age">Your Age (Years)</label>
-      <input id="age" name="age" type="number" v-model="userAge" />
+      <input
+        id="age"
+        name="age"
+        type="number"
+        v-model="userAge"
+        @input="onValidateAge"
+      />
+      <p v-if="ageValidity === 'invalid'">Please, enter your age in years.</p>
     </div>
     <div class="form-control">
       <label for="referrer">How did you hear about us?</label>
@@ -19,31 +36,79 @@
     <div class="form-control">
       <h2>What are you interested in?</h2>
       <div>
-        <input id="interest-news" name="interest" type="checkbox" />
+        <input
+          id="interest-news"
+          name="interest"
+          type="checkbox"
+          value="news"
+          v-model="interests"
+        />
         <label for="interest-news">News</label>
       </div>
       <div>
-        <input id="interest-tutorials" name="interest" type="checkbox" />
+        <input
+          id="interest-tutorials"
+          name="interest"
+          type="checkbox"
+          value="tutorials"
+          v-model="interests"
+        />
         <label for="interest-tutorials">Tutorials</label>
       </div>
       <div>
-        <input id="interest-nothing" name="interest" type="checkbox" />
+        <input
+          id="interest-nothing"
+          name="interest"
+          type="checkbox"
+          value="nothing"
+          v-model="interests"
+        />
         <label for="interest-nothing">Nothing</label>
       </div>
     </div>
     <div class="form-control">
       <h2>How do you learn?</h2>
       <div>
-        <input id="how-video" name="how" type="radio" />
+        <input
+          id="how-video"
+          name="how"
+          type="radio"
+          value="video"
+          v-model="how"
+        />
         <label for="how-video">Video Courses</label>
       </div>
       <div>
-        <input id="how-blogs" name="how" type="radio" />
+        <input
+          id="how-blogs"
+          name="how"
+          type="radio"
+          value="blog"
+          v-model="how"
+        />
         <label for="how-blogs">Blogs</label>
       </div>
       <div>
-        <input id="how-other" name="how" type="radio" />
+        <input
+          id="how-other"
+          name="how"
+          type="radio"
+          value="other"
+          v-model="how"
+        />
         <label for="how-other">Other</label>
+      </div>
+      <div class="form-control">
+        <rating-control v-model="rating"></rating-control>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          name="confirm-terms"
+          id="confirm"
+          v-model="confirm"
+        />
+        <label for="confirm">Agree</label>
       </div>
     </div>
     <div>
@@ -53,12 +118,23 @@
 </template>
 
 <script>
+import RatingControl from './RatingControl.vue';
+
 export default {
+  components: {
+    RatingControl,
+  },
   data() {
     return {
       userName: '',
       userAge: null,
       refferer: 'wom',
+      interests: [],
+      how: null,
+      confirm: false,
+      usernameValidity: 'valid',
+      ageValidity: 'valid',
+      rating: null,
     };
   },
   methods: {
@@ -66,9 +142,33 @@ export default {
       console.log(`Username: ${this.userName}`);
       console.log(`Age: ${this.userAge}`);
       console.log(`Referrer: ${this.refferer}`);
+      console.log(`Interests: ${this.interests}`);
+      console.log(`How: ${this.how}`);
+      console.log(`Confirm: ${this.confirm}`);
+      console.log(`Rating: ${this.rating}`);
       this.userName = '';
       this.userAge = null;
       this.refferer = 'wom';
+      this.interests = [];
+      this.how = null;
+      this.confirm = false;
+      this.rating = null;
+    },
+    onValidateUsername() {
+      if (this.userName !== '') {
+        this.usernameValidity = 'valid';
+      } else {
+        this.usernameValidity = 'invalid';
+      }
+    },
+    onValidateAge() {
+      if (this.userAge !== '') {
+        console.log('masuk');
+        this.ageValidity = 'valid';
+      } else {
+        console.log('kesini bos');
+        this.ageValidity = 'invalid';
+      }
     },
   },
 };
@@ -86,6 +186,14 @@ form {
 
 .form-control {
   margin: 0.5rem 0;
+}
+
+.form-control.invalid input {
+  border-color: #ff0000;
+}
+
+.form-control.invalid p {
+  color: #ff0000;
 }
 
 label {
