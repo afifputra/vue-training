@@ -1,4 +1,23 @@
 <template>
+  <base-dialog
+    title="Invalid Input"
+    @on-close-dialog="confirmError"
+    v-if="inputIsInvalid"
+  >
+    <template #dialog-content>
+      <p>
+        Unfortunately, the input you entered is invalid. Because of this, we
+        cannot add the resource to the database.
+      </p>
+      <p>
+        Please try again. If you continue to experience this issue, please
+        contact us.
+      </p>
+    </template>
+    <template #dialog-footer>
+      <base-button @click="confirmError">OK</base-button>
+    </template>
+  </base-dialog>
   <base-card>
     <form @submit.prevent="addResource">
       <div class="form-control">
@@ -32,11 +51,20 @@ export default {
       enteredTitle: '',
       enteredDescription: '',
       enteredLink: '',
+      inputIsInvalid: false,
     };
   },
   inject: ['onAddResource'],
   methods: {
     addResource() {
+      if (
+        this.enteredTitle.trim() === '' ||
+        this.enteredLink.trim() === '' ||
+        this.enteredDescription.trim() === ''
+      ) {
+        this.inputIsInvalid = true;
+        return;
+      }
       this.onAddResource({
         id: this.enteredTitle.toLowerCase().replace(/ /g, '-'),
         title: this.enteredTitle,
@@ -46,6 +74,9 @@ export default {
       this.enteredTitle = '';
       this.enteredDescription = '';
       this.enteredLink = '';
+    },
+    confirmError() {
+      this.inputIsInvalid = false;
     },
   },
 };

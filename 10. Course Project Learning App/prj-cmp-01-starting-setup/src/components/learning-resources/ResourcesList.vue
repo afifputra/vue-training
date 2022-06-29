@@ -20,10 +20,11 @@ import BaseButton from '../base/BaseButton.vue';
 export default {
   components: { BaseButton },
   props: ['id', 'title', 'description', 'link'],
+  inject: ['onDeleteResource'],
   methods: {
     deleteResource(resourceId) {
-      console.log(resourceId);
-      // this.$emit('onDeleteResource', resourceId);
+      // console.log(resourceId);
+      this.onDeleteResource(resourceId);
     },
   },
 };
