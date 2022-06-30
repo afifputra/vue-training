@@ -1,14 +1,14 @@
 <template>
   <the-navigation></the-navigation>
-  <button @click="back">Back</button>
   <main>
     <router-view></router-view>
   </main>
+  <footer>
+    <router-view name="footer"></router-view>
+  </footer>
 </template>
 
 <script>
-// import TeamsList from './components/teams/TeamsList.vue';
-// import UsersList from './components/users/UsersList.vue';
 import TheNavigation from './components/nav/TheNavigation.vue';
 
 export default {
@@ -36,11 +36,6 @@ export default {
       teams: this.teams,
       users: this.users,
     };
-  },
-  methods: {
-    back() {
-      this.$router.back();
-    },
   },
 };
 </script>
