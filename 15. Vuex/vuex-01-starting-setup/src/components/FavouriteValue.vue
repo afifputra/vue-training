@@ -4,11 +4,16 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   computed: {
-    counter() {
-      return this.$store.getters.normalizedCounter;
-    },
+    // counter() {
+    //   return this.$store.getters.normalizedCounter;
+    // },
+    ...mapGetters({
+      counter: 'normalizedCounter',
+    }),
   },
 };
 </script>
