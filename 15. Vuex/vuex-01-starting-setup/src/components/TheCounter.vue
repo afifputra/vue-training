@@ -9,7 +9,7 @@ export default {
     // counter() {
     //   return this.$store.getters.finalCounter;
     // },
-    ...mapGetters({
+    ...mapGetters('numbers', {
       counter: 'finalCounter',
     }),
   },

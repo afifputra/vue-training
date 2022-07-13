@@ -40,7 +40,7 @@ export default {
     //     value: 10,
     //   });
     // },
-    ...mapActions({
+    ...mapActions('numbers', {
       addOne: 'increase',
     }),
   },
