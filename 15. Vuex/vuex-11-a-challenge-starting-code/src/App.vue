@@ -8,11 +8,10 @@ import TheHeader from './components/nav/TheHeader.vue';
 
 export default {
   components: {
-    TheHeader
+    TheHeader,
   },
   data() {
     return {
-      isLoggedIn: false,
       products: [
         {
           id: 'p1',
@@ -26,7 +25,7 @@ export default {
         {
           id: 'p2',
           image:
-            'https://upload.wikimedia.org/wikipedia/en/thumb/c/c9/Tent_at_High_Shelf_Camp_cropped.jpg/640px-Tent_at_High_Shelf_Camp_cropped.jpg',
+            'https://previews.123rf.com/images/varunalight/varunalight1406/varunalight140600029/29350074-tourist-tent-camping-in-mountains.jpg',
           title: 'Mountain Tent',
           description: 'A tent for the ambitious outdoor tourist.',
           price: 129.99,
@@ -46,13 +45,10 @@ export default {
   },
   provide() {
     return {
-      isLoggedIn: this.isLoggedIn,
       products: this.products,
       cart: this.cart,
       addProductToCart: this.addProductToCart,
       removeProductFromCart: this.removeProductFromCart,
-      login: this.login,
-      logout: this.logout,
     };
   },
   methods: {
@@ -85,12 +81,6 @@ export default {
       this.cart.items.splice(productInCartIndex, 1);
       this.cart.qty -= prodData.qty;
       this.cart.total -= prodData.price * prodData.qty;
-    },
-    login() {
-      this.isLoggedIn = true;
-    },
-    logout() {
-      this.isLoggedIn = false;
     },
   },
 };
