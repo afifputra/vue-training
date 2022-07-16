@@ -25,10 +25,9 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
-  // inject: ['cart'],
   computed: {
     ...mapGetters({
       isLoggedIn: 'isLoggedIn',
@@ -36,7 +35,14 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['setIsLoggedIn', 'setIsLoggedOut']),
+    setIsLoggedIn() {
+      this.$router.push('/admin');
+      this.$store.commit('setIsLoggedIn', true);
+    },
+    setIsLoggedOut() {
+      this.$router.push('/');
+      this.$store.commit('setIsLoggedIn', false);
+    },
   },
 };
 </script>

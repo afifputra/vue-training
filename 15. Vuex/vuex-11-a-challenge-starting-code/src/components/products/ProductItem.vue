@@ -19,7 +19,6 @@
 </template>
 
 <script>
-// import { mapActions } from 'vuex';
 export default {
   props: ['id', 'image', 'title', 'price', 'description'],
   methods: {

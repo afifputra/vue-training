@@ -29,6 +29,10 @@ export default {
       state.cart.items.splice(productInCartIndex, 1);
     }
     state.cart.qty--;
-    state.cart.total -= productData.price;
+    if (state.cart.total > 0) {
+      state.cart.total -= productData.price;
+    } else {
+      state.cart.total = 0;
+    }
   },
 };
