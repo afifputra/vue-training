@@ -1,25 +1,34 @@
 export default {
   addProductToCart: (state, products) => {
-    console.log(products);
-    return;
-    // const productInCartIndex = state.cart.items.findIndex(
-    //   (item) => item.id === products.id
-    // );
-    // if (productInCartIndex >= 0) {
-    //   state.cart.items[productInCartIndex].qty++;
-    // } else {
-    //   state.cart.items.push({
-    //     id: products.id,
-    //     name: products.name,
-    //     price: products.price,
-    //     qty: 1,
-    //   });
-    // }
-    // state.cart.qty++;
-    // state.cart.total += products.price;
+    const productInCartIndex = state.cart.items.findIndex(
+      (item) => item.id === products.id
+    );
+    if (productInCartIndex >= 0) {
+      state.cart.items[productInCartIndex].qty++;
+    } else {
+      state.cart.items.push({
+        id: products.id,
+        title: products.title,
+        description: products.description,
+        image: products.image,
+        price: products.price,
+        qty: 1,
+      });
+    }
+    state.cart.qty++;
+    state.cart.total += products.price;
   },
-  removeProductFromCart: () => {},
-  cartTotal: (state) => {
-    return state.cart.total.toFixed(2);
+  removeProductFromCart: (state, productId) => {
+    const productInCartIndex = state.cart.items.findIndex(
+      (item) => item.id === productId
+    );
+    const productData = state.cart.items[productInCartIndex];
+    if (productData.qty > 1) {
+      state.cart.items[productInCartIndex].qty--;
+    } else {
+      state.cart.items.splice(productInCartIndex, 1);
+    }
+    state.cart.qty--;
+    state.cart.total -= productData.price;
   },
 };

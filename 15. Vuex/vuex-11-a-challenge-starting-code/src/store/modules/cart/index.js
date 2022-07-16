@@ -1,5 +1,6 @@
 import cartGetters from './getters';
 import cartMutations from './mutations';
+import cartActions from './actions';
 
 export default {
   namespaced: true,
@@ -8,4 +9,5 @@ export default {
   },
   getters: cartGetters,
   mutations: cartMutations,
+  actions: cartActions,
 };

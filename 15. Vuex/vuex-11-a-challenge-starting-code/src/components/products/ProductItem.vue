@@ -19,20 +19,17 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+// import { mapActions } from 'vuex';
 export default {
-  inject: ['addProductToCart'],
   props: ['id', 'image', 'title', 'price', 'description'],
   methods: {
-    ...mapActions('cart', {
-      addProductToCart: 'addProductToCart',
-    }),
     addToCart() {
-      this.addProductToCart({
+      this.$store.dispatch('cart/addProductToCart', {
         id: this.id,
         title: this.title,
         image: this.image,
         price: this.price,
+        description: this.description,
       });
     },
   },

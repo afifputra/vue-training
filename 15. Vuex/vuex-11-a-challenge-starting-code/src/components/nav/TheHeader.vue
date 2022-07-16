@@ -10,7 +10,7 @@
         </li>
         <li>
           <router-link to="/cart">Cart</router-link>
-          <base-badge mode="elegant">{{ cart.qty }}</base-badge>
+          <base-badge mode="elegant">{{ qtyCart }}</base-badge>
         </li>
         <li v-if="isLoggedIn">
           <router-link to="/admin">Admin</router-link>
@@ -28,9 +28,12 @@
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-  inject: ['cart'],
+  // inject: ['cart'],
   computed: {
-    ...mapGetters(['isLoggedIn']),
+    ...mapGetters({
+      isLoggedIn: 'isLoggedIn',
+      qtyCart: 'cart/qtyCart',
+    }),
   },
   methods: {
     ...mapActions(['setIsLoggedIn', 'setIsLoggedOut']),

@@ -15,7 +15,6 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex';
 import ProductItem from '../components/products/ProductItem.vue';
 
 export default {
@@ -23,9 +22,6 @@ export default {
     ProductItem,
   },
   computed: {
-    // ...mapGetters('products', {
-    //   products: 'allProducts',
-    // }),
     products() {
       return this.$store.getters['products/allProducts'];
     },

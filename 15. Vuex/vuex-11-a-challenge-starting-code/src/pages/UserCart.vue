@@ -7,8 +7,8 @@
     <ul>
       <cart-item
         v-for="item in cart.items"
-        :key="item.productId"
-        :prod-id="item.productId"
+        :key="item.id"
+        :prod-id="item.id"
         :title="item.title"
         :image="item.image"
         :price="item.price"
@@ -27,11 +27,11 @@ export default {
     CartItem,
   },
   computed: {
+    cart() {
+      return this.$store.getters['cart/allCart'];
+    },
     cartTotal() {
       return this.$store.getters['cart/cartTotal'];
-    },
-    cart() {
-      return this.$store.getters['cart/alLCart'];
     },
   },
 };
