@@ -36,6 +36,7 @@
 
 <script>
 export default {
+  emits: ['filter-changed'],
   data() {
     return {
       selectedFilters: {
@@ -54,7 +55,7 @@ export default {
         [id]: checked,
       };
       this.selectedFilters = updatedFilters;
-      console.log(this.selectedFilters);
+      this.$emit('filter-changed', updatedFilters);
     },
   },
 };

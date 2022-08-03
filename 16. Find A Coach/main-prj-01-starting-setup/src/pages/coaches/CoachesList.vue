@@ -1,6 +1,6 @@
 <template>
   <section>
-    <coach-filter></coach-filter>
+    <coach-filter @filter-changed="setSelectedFilters"></coach-filter>
   </section>
   <section>
     <base-card>
@@ -10,7 +10,7 @@
       </div>
       <ul v-if="hasCoaches">
         <coach-item
-          v-for="coach in coaches"
+          v-for="coach in filteredCoaches"
           :key="coach.id"
           :id="coach.id"
           :first-name="coach.firstName"
@@ -31,17 +31,37 @@ import CoachFilter from '../../components/coaches/CoachFilter.vue';
 export default {
   components: {
     CoachItem,
-    CoachFilter
+    CoachFilter,
+  },
+  data() {
+    return {
+      selectedFilters: {
+        frontend: true,
+        backend: true,
+        career: true,
+      },
+    };
   },
   computed: {
-    coaches() {
-      return this.$store.getters['coaches/all'];
-    },
     filteredCoaches() {
-      return this.$store.getters['coaches/all'];
+      const coaches = this.$store.getters['coaches/all'];
+      const filteredData = coaches.filter((coach) => {
+        const { frontend, backend, career } = this.selectedFilters;
+        return (
+          (frontend && coach.areas.includes('frontend')) ||
+          (backend && coach.areas.includes('backend')) ||
+          (career && coach.areas.includes('career'))
+        );
+      });
+      return filteredData;
     },
     hasCoaches() {
       return this.$store.getters['coaches/hasCoaches'];
+    },
+  },
+  methods: {
+    setSelectedFilters(filters) {
+      this.selectedFilters = filters;
     },
   },
 };
