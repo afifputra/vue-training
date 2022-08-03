@@ -24,10 +24,32 @@ export default {
       ],
     };
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    addCoach(state, coach) {
+      state.coaches.push(coach);
+    },
+  },
+  actions: {
+    addCoach(context, coach) {
+      const { firstName, lastName, areas, description, rate } = coach;
+      const coachData = {
+        id: context.rootGetters.userId,
+        firstName,
+        lastName,
+        areas,
+        description,
+        hourlyRate: rate,
+      };
+      context.commit('addCoach', coachData);
+    },
+  },
   getters: {
     all: (state) => state.coaches,
     hasCoaches: (state) => state.coaches.length > 0,
+    isCoach: (state, rootState, getters, rootGetters) => {
+      const coaches = getters.coaches;
+      const userId = rootGetters.userId;
+      return coaches.coaches.some((coach) => coach.id === userId);
+    },
   },
 };

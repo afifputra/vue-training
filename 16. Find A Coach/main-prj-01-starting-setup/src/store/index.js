@@ -7,7 +7,12 @@ const store = createStore({
     coaches: coachesModules,
   },
   state() {
-    return {};
+    return {
+      userId: 'c3',
+    };
+  },
+  getters: {
+    userId: (state) => state.userId,
   },
 });
 
