@@ -6,8 +6,11 @@ export default {
     };
   },
   getters: {
-    requests: (state) => state.requests,
-    hasRequests: (state) => state.requests.length > 0,
+    requests: (state, getters, rootState, rootGetters) => {
+      const coachId = rootGetters.userId;
+      return state.requests.filter((request) => request.coachId === coachId);
+    },
+    hasRequests: (state, getters) => getters.requests.length > 0,
   },
   mutations: {
     addRequest(state, request) {
