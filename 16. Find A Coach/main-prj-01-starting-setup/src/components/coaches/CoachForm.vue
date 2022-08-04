@@ -3,35 +3,48 @@
     <base-card>
       <form @submit.prevent="submitForm">
         <h2>Register Your as A Coach</h2>
-        <div class="form-control">
+        <div class="form-control" :class="{ invalid: !firstName.isValid }">
           <label for="firstname">Firstname</label>
           <input
             type="text"
             name="firstname"
             id="firstname"
             autocomplete="off"
-            v-model.trim="firstName"
+            v-model.trim="firstName.val"
+            @blur="removeInvalid('firstName')"
           />
         </div>
-        <div class="form-control">
+        <div class="form-control" :class="{ invalid: !lastName.isValid }">
           <label for="lastname">Lastname</label>
           <input
             type="text"
             name="lastname"
             id="lastname"
             autocomplete="off"
-            v-model.trim="lastName"
+            v-model.trim="lastName.val"
+            @blur="removeInvalid('lastName')"
           />
         </div>
-        <div class="form-control">
+        <div class="form-control" :class="{ invalid: !description.isValid }">
           <label for="description">Description</label>
-          <textarea id="description" rows="5" v-model="description"></textarea>
+          <textarea
+            id="description"
+            rows="5"
+            v-model="description.val"
+            @blur="removeInvalid('description')"
+          ></textarea>
         </div>
-        <div class="form-control">
+        <div class="form-control" :class="{ invalid: !rate.isValid }">
           <label for="rate">Hourly Rate</label>
-          <input type="number" name="rate" id="rate" v-model.number="rate" />
+          <input
+            type="number"
+            name="rate"
+            id="rate"
+            v-model.number="rate.val"
+            @blur="removeInvalid('rate')"
+          />
         </div>
-        <div class="form">
+        <div class="form" :class="{ invalid: !areas.isValid }">
           <h3>Areas of Expertise</h3>
           <div>
             <input
@@ -39,7 +52,8 @@
               name="frontend"
               id="frontend"
               value="frontend"
-              v-model="areas"
+              v-model="areas.val"
+              @blur="removeInvalid('areas')"
             />
             <label for="frontend">Frontend</label>
           </div>
@@ -49,7 +63,8 @@
               name="backend"
               id="backend"
               value="backend"
-              v-model="areas"
+              v-model="areas.val"
+              @blur="removeInvalid('areas')"
             />
             <label for="backend">Backend</label>
           </div>
@@ -59,11 +74,15 @@
               name="career"
               id="career"
               value="career"
-              v-model="areas"
+              v-model="areas.val"
+              @blur="removeInvalid('areas')"
             />
             <label for="career">Career</label>
           </div>
         </div>
+        <p v-if="!formIsValid">
+          Please fill the form with the correct information.
+        </p>
         <base-button>Register</base-button>
       </form>
     </base-card>
@@ -95,22 +114,54 @@ export default {
         val: [],
         isValid: true,
       },
+      formIsValid: true,
     };
   },
   methods: {
+    removeInvalid(input) {
+      this[input].isValid = true;
+    },
+    validateForm() {
+      this.formIsValid = true;
+
+      if (this.firstName.val === '') {
+        this.firstName.isValid = false;
+        this.formIsValid = false;
+      }
+      if (this.lastName.val === '') {
+        this.lastName.isValid = false;
+        this.formIsValid = false;
+      }
+      if (this.description.val === '') {
+        this.description.isValid = false;
+        this.formIsValid = false;
+      }
+      if (!this.rate.val || this.rate.val < 0) {
+        this.rate.isValid = false;
+        this.formIsValid = false;
+      }
+      if (this.areas.val.length < 1) {
+        this.areas.isValid = false;
+        this.formIsValid = false;
+      }
+    },
     submitForm() {
+      this.validateForm();
+      if (!this.formIsValid) {
+        return;
+      }
       const formData = {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        description: this.description,
-        rate: this.rate,
-        areas: this.areas,
+        firstName: this.firstName.val,
+        lastName: this.lastName.val,
+        description: this.description.val,
+        rate: this.rate.val,
+        areas: this.areas.val,
       };
-      this.firstName = '';
-      this.lastName = '';
-      this.description = '';
-      this.rate = null;
-      this.areas = [];
+      this.firstName.val = '';
+      this.lastName.val = '';
+      this.description.val = '';
+      this.rate.val = null;
+      this.areas.val = [];
       this.$emit('save-data', formData);
     },
   },
