@@ -2,6 +2,7 @@ export default {
   namespaced: true,
   state() {
     return {
+      lastFecth: null,
       coaches: [
         {
           id: 'c1',
@@ -30,6 +31,9 @@ export default {
     },
     setCoaches(state, coaches) {
       state.coaches = coaches;
+    },
+    setLastFetchTimestamps(state) {
+      state.lastFecth = new Date().getTime();
     },
   },
   actions: {
@@ -67,7 +71,12 @@ export default {
       });
     },
 
-    async fetchCoaches(context) {
+    async fetchCoaches(context, refreshFromButton) {
+      const shouldUpdate = context.getters.shouldFetchCoaches;
+      if (!shouldUpdate && !refreshFromButton) {
+        return;
+      }
+
       const response = await fetch(
         `https://vue-http-5a0cc-default-rtdb.asia-southeast1.firebasedatabase.app/coaches.json`
       );
@@ -92,6 +101,7 @@ export default {
       }
 
       context.commit('setCoaches', coaches);
+      context.commit('setLastFetchTimestamps');
     },
   },
   getters: {
@@ -101,6 +111,11 @@ export default {
       const coaches = getters.coaches;
       const userId = rootGetters.userId;
       return coaches.coaches.some((coach) => coach.id === userId);
+    },
+    shouldFetchCoaches: (state) => {
+      const lastFetch = state.lastFecth;
+      const now = new Date().getTime();
+      return (now - lastFetch) / 1000 > 60;
     },
   },
 };
