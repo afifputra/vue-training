@@ -28,19 +28,69 @@ export default {
     addCoach(state, coach) {
       state.coaches.push(coach);
     },
+    setCoaches(state, coaches) {
+      state.coaches = coaches;
+    },
   },
   actions: {
-    addCoach(context, coach) {
+    async addCoach(context, coach) {
       const { firstName, lastName, areas, description, rate } = coach;
+      const userId = context.rootGetters.userId;
       const coachData = {
-        id: context.rootGetters.userId,
         firstName,
         lastName,
         areas,
         description,
         hourlyRate: rate,
       };
-      context.commit('addCoach', coachData);
+
+      const response = await fetch(
+        `https://vue-http-5a0cc-default-rtdb.asia-southeast1.firebasedatabase.app/coaches/${userId}.json`,
+        {
+          method: 'PUT', // or 'PUT'
+          body: JSON.stringify(coachData),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      // const data = await response.json();
+
+      if (!response.ok) {
+        // error
+      }
+
+      context.commit('addCoach', {
+        ...coachData,
+        id: userId,
+      });
+    },
+
+    async fetchCoaches(context) {
+      const response = await fetch(
+        `https://vue-http-5a0cc-default-rtdb.asia-southeast1.firebasedatabase.app/coaches.json`
+      );
+      const data = await response.json();
+
+      if (!response.ok) {
+        // error
+      }
+
+      const coaches = [];
+      for (const key in data) {
+        const coach = {
+          id: key,
+          firstName: data[key].firstName,
+          lastName: data[key].lastName,
+          areas: data[key].areas,
+          description: data[key].description,
+          hourlyRate: data[key].hourlyRate,
+        };
+        coaches.push(coach);
+      }
+
+      context.commit('setCoaches', coaches);
     },
   },
   getters: {
