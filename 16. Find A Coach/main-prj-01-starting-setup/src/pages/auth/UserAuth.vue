@@ -75,9 +75,11 @@ export default {
       try {
         if (this.mode === 'login') {
           await this.$store.dispatch('login', actionPayload);
-          this.$router.push('/');
+          const redirectUrl = `/${this.$route.query.redirect || 'coaches'}`;
+          this.$router.replace(redirectUrl);
         } else {
           await this.$store.dispatch('signup', actionPayload);
+          this.mode = 'login';
         }
         this.email = '';
         this.password = '';
