@@ -54,7 +54,16 @@ export default {
         this.formIsValid = false;
         return;
       }
-      console.log(this.email, this.password, this.mode);
+      if (this.mode === 'login') {
+        console.log('login');
+      } else {
+        this.$store.dispatch('signup', {
+          email: this.email,
+          password: this.password,
+        });
+      }
+      this.email = '';
+      this.password = '';
     },
     switchMode() {
       if (this.email !== '' || this.password !== '') {
