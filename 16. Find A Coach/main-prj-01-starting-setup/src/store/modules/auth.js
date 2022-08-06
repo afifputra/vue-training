@@ -78,6 +78,37 @@ export default {
         tokenExpiration: responseData.expiresIn,
       });
     },
+    auth(context, payload) {
+        const mode = payload.mode;
+        let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBMAS1HexE_4NN1LLm40tOXaBsSy7sDVzg';
+
+        if (mode === 'signup') url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBMAS1HexE_4NN1LLm40tOXaBsSy7sDVzg';
+
+        const response = await fetch(
+            'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBMAS1HexE_4NN1LLm40tOXaBsSy7sDVzg',
+            {
+              method: 'POST',
+              body: JSON.stringify({
+                email: payload.email,
+                password: payload.password,
+                returnSecureToken: true,
+              }),
+            }
+          );
+          const responseData = await response.json();
+    
+          if (!response.ok) {
+            console.log(responseData);
+            const error = new Error(responseData.error.message);
+            throw error;
+          }
+    
+          context.commit('setUser', {
+            token: responseData.idToken,
+            userId: responseData.localId,
+            tokenExpiration: responseData.expiresIn,
+          });
+    },
     logout(context) {
       context.commit('setUserLogout');
     },
