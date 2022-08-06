@@ -9,12 +9,18 @@ export default {
   getters: {
     userId: (state) => state.userId,
     token: (state) => state.token,
+    isAuthenticated: (state) => !!state.token,
   },
   mutations: {
     setUser(state, payload) {
       state.token = payload.token;
       state.userId = payload.userId;
       state.tokenExpiration = payload.tokenExpiration;
+    },
+    setUserLogout(state) {
+      state.token = null;
+      state.userId = null;
+      state.tokenExpiration = null;
     },
   },
   actions: {
@@ -71,6 +77,9 @@ export default {
         userId: responseData.localId,
         tokenExpiration: responseData.expiresIn,
       });
+    },
+    logout(context) {
+      context.commit('setUserLogout');
     },
   },
 };
