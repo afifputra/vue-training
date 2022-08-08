@@ -5,21 +5,27 @@ export default {
     return {
       userId: null,
       token: null,
+      didAutoLogout: false,
     };
   },
   getters: {
     userId: (state) => state.userId,
     token: (state) => state.token,
+    didAutoLogout: (state) => state.didAutoLogout,
     isAuthenticated: (state) => !!state.token,
   },
   mutations: {
     setUser(state, payload) {
       state.token = payload.token;
       state.userId = payload.userId;
+      state.didAutoLogout = false;
     },
     setUserLogout(state) {
       state.token = null;
       state.userId = null;
+    },
+    setAutoLogout(state) {
+      state.didAutoLogout = true;
     },
   },
   actions: {
@@ -61,12 +67,12 @@ export default {
         throw error;
       }
 
-      // const expiresIn = +responseData.expiresIn * 1000;
-      const expiresIn = 5000;
+      const expiresIn = +responseData.expiresIn * 1000;
+      // const expiresIn = 5000;
       const expirationDate = new Date().getTime() + expiresIn;
 
       timer = setTimeout(() => {
-        context.dispatch('logout');
+        context.dispatch('autoLogout');
       }, expiresIn);
 
       localStorage.setItem('token', responseData.idToken);
@@ -89,7 +95,7 @@ export default {
       if (expiresIn < 0) return;
 
       timer = setTimeout(() => {
-        context.dispatch('logout');
+        context.dispatch('autoLogout');
       }, expiresIn);
 
       if (token && userId) {
@@ -98,6 +104,11 @@ export default {
           userId,
         });
       }
+    },
+
+    autoLogout(context) {
+      context.dispatch('logout');
+      context.commit('setAutoLogout');
     },
 
     logout(context) {
