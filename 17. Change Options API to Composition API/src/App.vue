@@ -5,10 +5,25 @@
 </template>
 
 <script>
+// export default {
+//   data() {
+//     return {
+//       userName: 'Maximilian',
+//     };
+//   },
+// };
+import { ref } from 'vue';
+
 export default {
-  data() {
+  setup() {
+    const userName = ref('Maximilian');
+
+    setTimeout(() => {
+      userName.value = 'Afif';
+    }, 2000);
+
     return {
-      userName: 'Maximilian',
+      userName,
     };
   },
 };
