@@ -1,6 +1,7 @@
 <template>
   <section class="container">
     <user-data
+      v-if="!hide"
       :first-name="firstName"
       :last-name="lastName"
       @add-age="setAge"
@@ -10,6 +11,9 @@
       <input type="text" v-model="firstName" />
       <input type="text" ref="lastNameInput" />
       <button @click="setLastName">Set Name</button>
+    </div>
+    <div>
+      <button @click="onChangeHide">Hide</button>
     </div>
   </section>
 </template>
@@ -30,6 +34,7 @@ export default {
 
     const firstName = ref('');
     const lastName = ref('');
+    const hide = ref(false);
 
     // templating ref
     const lastNameInput = ref(null);
@@ -51,16 +56,22 @@ export default {
       return user.age;
     });
 
+    const onChangeHide = () => {
+      return (hide.value = !hide.value);
+    };
+
     provide('userAge', age);
 
     return {
       user,
+      hide,
       userName,
       firstName,
       lastName,
       lastNameInput,
       setAge,
       setLastName,
+      onChangeHide,
     };
   },
 };
