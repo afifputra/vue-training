@@ -3,7 +3,6 @@
     <user-data
       :first-name="firstName"
       :last-name="lastName"
-      :age="user.age"
       @add-age="setAge"
     />
     <br />
@@ -16,7 +15,7 @@
 </template>
 
 <script>
-import { reactive, computed, ref } from 'vue';
+import { reactive, computed, ref, provide } from 'vue';
 import UserData from './components/UserData.vue';
 
 export default {
@@ -26,7 +25,7 @@ export default {
   setup() {
     const user = reactive({
       name: 'Ling',
-      age: 0,
+      age: 30,
     });
 
     const firstName = ref('');
@@ -47,6 +46,12 @@ export default {
     const userName = computed(() => {
       return `${firstName.value} ${lastName.value}`;
     });
+
+    const age = computed(() => {
+      return user.age;
+    });
+
+    provide('userAge', age);
 
     return {
       user,
