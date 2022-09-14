@@ -22,11 +22,6 @@ export default {
       search,
     };
   },
-  // methods: {
-  //   search(event) {
-  //     this.$emit('search', event.target.value);
-  //   },
-  // },
 };
 </script>
 

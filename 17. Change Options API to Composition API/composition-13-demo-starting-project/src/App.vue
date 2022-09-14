@@ -31,17 +31,6 @@ export default {
       selectUser,
     };
   },
-  // data() {
-  //   return {
-  //     selectedUser: null,
-  //     activeUsers: USER_DATA,
-  //   };
-  // },
-  // methods: {
-  //   selectUser(uid) {
-  //     this.selectedUser = this.activeUsers.find((usr) => usr.id === uid);
-  //   },
-  // },
 };
 </script>
 
