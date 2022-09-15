@@ -7,9 +7,9 @@ const useSearch = (items, searchProp) => {
   const availableItems = computed(() => {
     // console.log(activeSearchTerm.value);
     if (activeSearchTerm.value.length === 0) {
-      return items;
+      return items.value;
     } else {
-      return items.filter((item) =>
+      return items.value.filter((item) =>
         item[searchProp]
           .toLowerCase()
           .includes(activeSearchTerm.value.toLowerCase())
@@ -30,7 +30,7 @@ const useSearch = (items, searchProp) => {
     return () => clearTimeout(timer);
   });
 
-  return [enteredSearchTerm, availableItems, updateSearch];
+  return [enteredSearchTerm, availableItems, updateSearch, activeSearchTerm];
 };
 
 export default useSearch;
